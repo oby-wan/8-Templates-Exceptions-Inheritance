@@ -20,18 +20,19 @@ protected:
 		char header[3];
 		infile >> header;
 		getline(infile, line);
-		getfile(infile, line);
+		getline(infile, line);
 		infile >> numcols >> numrows >> max;
-		board = new int* [numcols];
-		for (int = i; i < numcols; i++)
-			board[i] = new int[numrows];
-		for (int = i; i < numrows; i++) {
-			for (int = j; j < numcols; j++)
+		board = new T* [numcols];
+		for (int i = 0; i < numcols; i++)
+			board[i] = new T[numrows];
+		for (int i = 0; i < numrows; i++) {
+			for (int j = 0; j < numcols; j++)
 				infile >> board[j][i];
 		}
 		if (numcols <= 0 || numrows <= 0 || max < 0 || max > 255) {
+			cout << numcols << numrows << max << endl;
 			throw exceptionClass("Bad values");
-		
+		}
 	}
 public:
 	// for file exceptions
@@ -65,8 +66,8 @@ public:
 	}
 	// overloaded addition operator
 	PGM operator+(const PGM<T>& p) {
-		for (int i = 0; i < numrow; i++) {
-			for (int f = 0; f < numcols; i++)
+		for (int i = 0; i < numrows; i++) {
+			for (int j = 0; j < numcols; i++)
 				board[i][j] += p.board[i][j];
 		}
 		return *this;
@@ -77,9 +78,9 @@ public:
 		numrows = p.numrows;
 		numcols = p.numcols;
 		max = p.max;
-		board = new PGM*[rows]
+		board = new T*[numrows];
 		for (int i = 0; i < numrows; i++) {
-			for (int f = 0; f < numcols; f++)
+			for (int j = 0; j < numcols; j++)
 				board[i][j] = p.board[i][j];
 		}
 	}
@@ -106,7 +107,7 @@ public:
 	PGM<T>& operator=(const PGM<T>& p) {
 		numcols = p.cols;
 		numrows = p.numrows;
-		board = new board[]
+		board = new T*[numrows];
 		if (this != &p) {
 			if (magic != nullptr)
 				delete[] magic;
@@ -127,7 +128,7 @@ public:
 		numrows = p.numrows;
 		p.numrows = nullptr;
 
-		board = new board[]
+		board = new T**[numrows];
 			if (this != &p) {
 				if (magic != nullptr)
 					delete[] magic;
@@ -141,7 +142,6 @@ public:
 				p.magic = nullptr;
 				p.comment = nullptr;
 			}
-
 		return *this;
 	}
 	// template friend function for saving PGM object
@@ -150,10 +150,10 @@ public:
 	friend void saveToPGM(const PGM<T>& p , const char* c) {
 		ofstream out(c);
 		out << "P2\n" << "#Created by GIMP version 2.10.28 PNM plug-in\n";
-		out << f.numcols << " " << f.numrows << "\n" << f.max << "\n";
-		for (int i = 0; i < f.numrows; i++) {
-			for (int j = 0; j < f.numcols; j++) 
-				out << f.board[j][i] << " ";
+		out << p.numcols << " " << p.numrows << "\n" << p.max << "\n";
+		for (int i = 0; i < p.numrows; i++) {
+			for (int j = 0; j < p.numcols; j++) 
+				out << p.board[j][i] << " ";
 			out << endl;
 		}
 	}
