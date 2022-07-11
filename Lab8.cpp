@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 using namespace std;
 
 template <class T>
@@ -126,8 +127,9 @@ public:
 	}
 	// template friend function for saving PGM object
 	// file
-	friend void saveToPGM(const PGM<T>&, const char*) {
-		ofstream out(fn);
+	template <class T>
+	friend void saveToPGM(const PGM<T>& f , const char* c) {
+		ofstream out(f);
 		out << "P2\n" << "#Created by GIMP version 2.10.28 PNM plug-in\n";
 		out << f.numcols << " " << f.numrows << "\n" << f.max << "\n";
 		for (int i = 0; i < f.numrows; i++) {
