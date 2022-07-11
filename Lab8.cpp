@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+
 using namespace std;
 
 template <class T>
@@ -19,6 +20,7 @@ protected:
 		string line;
 		char header[3];
 		infile >> header;
+		cout << header << endl;
 		getline(infile, line);
 		getline(infile, line);
 		infile >> numcols >> numrows >> max;
@@ -100,7 +102,7 @@ public:
 		numrows = p.numrows;		
 		magic = p.magic;		
 		comment = p.comment;
-
+	}
 	// overloaded assignment operator
 	PGM<T>& operator=(const PGM<T>& p) {
 		numcols = p.cols;
@@ -144,7 +146,7 @@ public:
 	}
 	// template friend function for saving PGM object
 	// file
-	template <class T>
+	
 	friend void saveToPGM(const PGM<T>& p , const char* c) {
 		ofstream out(c);
 		out << "P2\n" << "#Created by GIMP version 2.10.28 PNM plug-in\n";
