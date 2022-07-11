@@ -68,7 +68,7 @@ public:
 	PGM operator+(const PGM<T>& p) {
 		for (int i = 0; i < numrows; i++) {
 			for (int j = 0; j < numcols; i++)
-				board[i][j] += p.board[i][j];
+				board[j][i] += p.board[j][i];
 		}
 		return *this;
 	}
@@ -78,10 +78,12 @@ public:
 		numrows = p.numrows;
 		numcols = p.numcols;
 		max = p.max;
-		board = new T*[numrows];
+		board = new T*[numcols];
+		for (int i = 0; i < numcols; i++)
+			board[i] = new T[numrows];
 		for (int i = 0; i < numrows; i++) {
 			for (int j = 0; j < numcols; j++)
-				board[i][j] = p.board[i][j];
+				board[j][i] = p.board[j][i];
 		}
 	}
 	// move constructor
@@ -89,20 +91,16 @@ public:
 		cout << "move constructor called" << endl;
 		for (int i = 0; i < numrows; i++) {
 			for (int j = 0; j < numcols; j++) {
-				board[i][j] = p.board[i][j];
+				board[j][i] = p.board[j][i];
 				p.board[i] = nullptr;
 				p.board = nullptr;
 			}
 		}
-		numcols = p.numcols;
-		p.numcols = nullptr;
-		numrows = p.numrows;
-		p.numrows = nullptr;
-		magic = p.magic;
-		p.magic = nullptr;
+		numcols = p.numcols;		
+		numrows = p.numrows;		
+		magic = p.magic;		
 		comment = p.comment;
-		p.comment = nullptr;
-	}
+
 	// overloaded assignment operator
 	PGM<T>& operator=(const PGM<T>& p) {
 		numcols = p.cols;
