@@ -13,6 +13,7 @@ protected:
 	T max;
 	string magic;
 	string comment;
+
 	void readInput(ifstream& infile) {
 		cout << "Read input called" << endl;
 		string line;
@@ -28,8 +29,9 @@ protected:
 			for (int = j; j < numcols; j++)
 				infile >> board[j][i];
 		}
-		if (numcols <= 0 || numrows <= 0 || max < 0 || max > 255) 
+		if (numcols <= 0 || numrows <= 0 || max < 0 || max > 255) {
 			throw exceptionClass("Bad values");
+		
 	}
 public:
 	// for file exceptions
@@ -63,7 +65,7 @@ public:
 	}
 	// overloaded addition operator
 	PGM operator+(const PGM<T>& p) {
-		for (int i = 0; i < numrows; i++) {
+		for (int i = 0; i < numrow; i++) {
 			for (int f = 0; f < numcols; i++)
 				board[i][j] += p.board[i][j];
 		}
@@ -82,13 +84,14 @@ public:
 		}
 	}
 	// move constructor
-	PGM(PGM<T>&& p) numrows(0), numcols(0), max(255), board(nullptr), magic(""), comment("") {
+	PGM(PGM<T>&& p) : numrows(0), numcols(0), max(255), board(nullptr), magic(""), comment("") {
 		cout << "move constructor called" << endl;
 		for (int i = 0; i < numrows; i++) {
-			for (int f = 0; f < numcols; f++)
+			for (int j = 0; j < numcols; j++) {
 				board[i][j] = p.board[i][j];
 				p.board[i] = nullptr;
 				p.board = nullptr;
+			}
 		}
 		numcols = p.numcols;
 		p.numcols = nullptr;
@@ -98,8 +101,6 @@ public:
 		p.magic = nullptr;
 		comment = p.comment;
 		p.comment = nullptr;
-
-
 	}
 	// overloaded assignment operator
 	PGM<T>& operator=(const PGM<T>& p) {
@@ -147,7 +148,7 @@ public:
 	// file
 	template <class T>
 	friend void saveToPGM(const PGM<T>& p , const char* c) {
-		ofstream out(p);
+		ofstream out(c);
 		out << "P2\n" << "#Created by GIMP version 2.10.28 PNM plug-in\n";
 		out << f.numcols << " " << f.numrows << "\n" << f.max << "\n";
 		for (int i = 0; i < f.numrows; i++) {
