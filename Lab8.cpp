@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 template <class T>
@@ -12,7 +13,24 @@ protected:
 	T max;
 	string magic;
 	string comment;
-	void readInput(ifstream&);
+	void readInput(ifstream& infile) {
+		cout << "Read input called" << endl;
+		string line;
+		char header[3];
+		infile >> header;
+		getline(infile, line);
+		getfile(infile, line);
+		infile >> numcols >> numrows >> max;
+		board = new int* [numcols];
+		for (int = i; i < numcols; i++)
+			board[i] = new int[numrows];
+		for (int = i; i < numrows; i++) {
+			for (int = j; j < numcols; j++)
+				infile >> board[j][i];
+		}
+		if (numcols <= 0 || numrows <= 0 || max < 0 || max > 255) 
+			throw exceptionClass("Bad values");
+	}
 public:
 	// for file exceptions
 	class exceptionClass {
@@ -128,8 +146,8 @@ public:
 	// template friend function for saving PGM object
 	// file
 	template <class T>
-	friend void saveToPGM(const PGM<T>& f , const char* c) {
-		ofstream out(f);
+	friend void saveToPGM(const PGM<T>& p , const char* c) {
+		ofstream out(p);
 		out << "P2\n" << "#Created by GIMP version 2.10.28 PNM plug-in\n";
 		out << f.numcols << " " << f.numrows << "\n" << f.max << "\n";
 		for (int i = 0; i < f.numrows; i++) {
